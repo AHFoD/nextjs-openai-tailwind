@@ -1,4 +1,5 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import axios from 'axios';
 
 const IndexPage = () => {
   const [response, setResponse] = useState('');
@@ -19,6 +20,8 @@ const IndexPage = () => {
       body: JSON.stringify({prompt}),
     }).then(res => res.json());
 
+    console.log(res.data);
+
     setResponse(res.data.text);
     setLoading(false);
   };
@@ -27,6 +30,39 @@ const IndexPage = () => {
     setResponse('');
     setPrompt('');
   };
+
+  useEffect(() => {
+    console.log('Check yg ni running tak');
+
+    const parseData = {
+      latitude: 3.140853,
+      longitude: 101.693207,
+    };
+
+    const fetchData = async () => {
+      try {
+        console.log('masuk tak');
+
+        const res = await axios.post('/api/places', parseData);
+        console.log(res);
+
+        const resPlaces = await axios.post('/api/places', parseData);
+        console.log(resPlaces);
+
+        // const res = await fetch('/api/places', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(parseData),
+        // }).then(res => res.json());
+        // console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    console.log(fetchData());
+  }, []);
 
   return (
     <div className="max-w-md mx-auto pt-20">
@@ -56,7 +92,9 @@ const IndexPage = () => {
         {response && (
           <div className="mb-4">
             <h2 className="font-bold">Response</h2>
-            <p className="pl-2 text-gray-700 whitespace-pre-line">{response}</p>
+            <a href="#" className="pl-2 text-gray-700 whitespace-pre-line">
+              {response}
+            </a>
           </div>
         )}
         <div className="flex gap-2">
