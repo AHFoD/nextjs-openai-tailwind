@@ -18,3 +18,5 @@ yarn install
 ```sh
 yarn dev
 ```
+### Disclaimer
+- Currrently subscribed to openAI API for this testing purpose
